@@ -1,0 +1,77 @@
+<?xml version="1.0"?>
+<data>
+    <business_transaction name='Process Exquiry'>
+        <description>Process Enquiry / Application</description>
+        <volume>80</volume>
+        <frequency>per hour</frequency>
+        <notes></notes>
+        <it_transaction name='Process Enquiry / Application'>
+            <description>Process Enquiry / Application</description>
+            <qty>1</qty>
+            <rating>1</rating>
+        </it_transaction>
+        <it_transaction name='Contact NRP and Gather Information'>
+            <description>Contact NRP and Gather Information</description>
+            <qty></qty>
+            <rating></rating>
+        </it_transaction>
+        <it_transaction name='Shared Care Resolution'>
+            <description>Shared Care Resolution</description>
+            <qty>0.0875</qty>
+            <rating>1</rating>
+        </it_transaction>
+    </business_transaction>
+    <business_transaction name='Transition'>
+        <description>Transition Existing Scheme</description>
+        <volume></volume>
+        <frequency></frequency>
+        <notes></notes>
+        <it_transaction name='Financial Transition'>
+            <description>Financial Transition</description>
+            <qty></qty>
+            <rating></rating>
+        </it_transaction>
+        <it_transaction name='Reactive Transition'>
+            <description>Manage Reactive Transition to Future Scheme</description>
+            <qty></qty>
+            <rating></rating>
+        </it_transaction>
+    </business_transaction>
+    <business_transaction name='Deetermine Parentage'>
+        <description>Determine Parentage</description>
+        <volume></volume>
+        <frequency></frequency>
+        <notes></notes>
+    </business_transaction>
+    <business_transaction name='Manage Client Contact'>
+        <description>Manage Client Contact</description>
+        <volume></volume>
+        <frequency></frequency>
+        <notes></notes>
+    </business_transaction>
+    <business_transaction name='Perform Calculation'>
+        <description>Perform Calculation</description>
+        <volume>99</volume>
+        <frequency>per hour</frequency>
+        <notes>This needs to be checked</notes>
+    </business_transaction>
+    <hardware name='Siebel_HTTP'>
+        <hostname>ukbilvsdwp786/787</hostname>
+        <cpu>1.6</cpu>
+        <cpu_rating>3.8</cpu_rating>
+        <memory>8</memory>
+        <disk>72</disk>
+    </hardware>
+    <hardware name='WSSR_WPS_HTTP'>
+        <hostname>ukbilvsdwp788/789</hostname>
+        <cpu>2</cpu>
+        <cpu_rating>3.8</cpu_rating>
+        <memory>8</memory>
+        <disk>72</disk>
+    </hardware>
+    <resource name ='Siebel_HTTP_CPU'>
+        <hardware>Siebel_HTTP</hardware>
+        <description>CPU</description>
+        <unit>% cpu</unit>
+    </resource>
+</data>
