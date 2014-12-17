@@ -1,11 +1,9 @@
-import string
-from string import maketrans
-
 class Sheet():
     def __init__(self, sheet):
         self.sheet = sheet
         self.headers = []
         self.mappings = {}
+        self.track_columns = []
 
     def add_header(self, header):
         if isinstance(header, basestring):
@@ -17,18 +15,14 @@ class Sheet():
         for header in self.headers:
             self.sheet.write(row, self.headers.index(header), header)
 
-    def write_row(self, row, data, track_column = None):
-        print data
-        col = 0
-        for cell in data:
-            self.sheet.write(row, col, cell)
-
-            print cell, row, data.index(cell)
-            if track_column is not None:
-                for i in track_column:
-                    if data.index(cell) == i:
-                        self.create_mapping(str(data[0])+'#'+str(i), row, i)
-            col += 1
+    def write_row(self, row, data):
+        for column, value in enumerate(data):
+            self.sheet.write(row, column, value)
+            if column in [x[1] for x in self.track_columns]:
+                #print column
+                #print x
+                #print data[x[0]]
+                self.create_mapping(data[x[0]]+'#'+str(column), row, column)
 
     def create_mapping(self, name, row, col):
         # Add one to the row because excel is not zero indexed.
@@ -49,26 +43,30 @@ class Sheet():
         for mapping in self.mappings:
             print "%s, %s" % (mapping, self.mappings[mapping])
 
+    def track_column(self, key, column):
+        """Track this column."""
+        #column = chr(int(column) + 65)
+        self.track_columns.append((key, column))
+
 
 if __name__ == '__main__':
     import xlsxwriter
-    import xml.etree.ElementTree as ET
+    #import xml.etree.ElementTree as ET
     workbook = xlsxwriter.Workbook('model.xlsx')
     business_transactions_sheet = workbook.add_worksheet(\
             'Input Business Transactions')
     sheet = Sheet(business_transactions_sheet)
     headers = ['Business Transaction', 'Transaction Description', 'Business Volumes', 'Frequency', 'Notes']
-    #sheet.add_header('Business Transaction')
-    #sheet.add_header('Transaction Description')
-    #sheet.add_header('Business Volumes')
-    #sheet.add_header('Frequency')
-    #sheet.add_header('Notes')
     sheet.add_header(headers)
 
     sheet.write_headers(6)
-    sheet.write_row(7, ['Process Enquiry', 'Process Enquiry / Application', 80, 'per hour', ''], [0, 2])
+    sheet.track_column(0, 0)
+    sheet.track_column(0, 2)
+    sheet.write_row(7, ['Process Enquiry', 'Process Enquiry / Application', 80, 'per hour', ''])
+
 
     sheet.print_mappings()
+    #""""
     it_trans_sheet = workbook.add_worksheet(\
             'Input IT Transactions')
     itsheet = Sheet(it_trans_sheet)
@@ -86,6 +84,6 @@ if __name__ == '__main__':
     #itsheet.write_row(7, ["='Input Business Transactions'!A8", 'IT Transaction', 10], 1)
     print itsheet.write_mapping('Process Enquiry#0', sheet)
     itsheet.write_row(7, [itsheet.write_mapping('Process Enquiry#0', sheet), 'Process Enquiry / Application', 'Process Enquiry / Application', 1, 1, itsheet.write_mapping('Process Enquiry#2', sheet)])
-
+    #"""
     workbook.close()
 
