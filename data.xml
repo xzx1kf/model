@@ -9,6 +9,11 @@
             <description>Process Enquiry / Application</description>
             <qty>1</qty>
             <rating>1</rating>
+            <resources>
+                <name>Siebel_HTTP_CPU</name>
+                <name>Siebel_HTTP_Memory</name>
+                <name>Siebel_Gtwy_CPU</name>
+            </resources>
         </it_transaction>
         <it_transaction name='Contact NRP and Gather Information'>
             <description>Contact NRP and Gather Information</description>
@@ -55,23 +60,17 @@
         <frequency>per hour</frequency>
         <notes>This needs to be checked</notes>
     </business_transaction>
-    <hardware name='Siebel_HTTP'>
+    <hardware ID='Siebel_HTTP'>
         <hostname>ukbilvsdwp786/787</hostname>
         <cpu>1.6</cpu>
         <cpu_rating>3.8</cpu_rating>
         <memory>8</memory>
         <disk>72</disk>
     </hardware>
-    <hardware name='WSSR_WPS_HTTP'>
-        <hostname>ukbilvsdwp788/789</hostname>
-        <cpu>2</cpu>
-        <cpu_rating>3.8</cpu_rating>
-        <memory>8</memory>
-        <disk>72</disk>
-    </hardware>
-    <resource name ='Siebel_HTTP_CPU'>
-        <hardware>Siebel_HTTP</hardware>
-        <description>CPU</description>
-        <unit>% cpu</unit>
-    </resource>
+    <resources>
+        <resource ID="Siebel_HTTP_CPU" hardwareRef="Siebel_HTTP">
+            <description>CPU</description>
+            <unit>% cpu</unit>
+        </resource>
+    </resources>
 </data>

@@ -144,4 +144,8 @@ if __name__ == '__main__':
             itSheet.write_row(itrow + header_row, rowdata)
             itrow += 1
 
+            # Start of the IT to Resource Mapping Sheet
+            for i in it.findall('resources'):
+                for n in i.findall('name'):
+                    print n.text
     workbook.close()
