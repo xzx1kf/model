@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <data>
-    <business_transaction name='Process Exquiry'>
+    <business_transaction name='Process Enquiry'>
         <description>Process Enquiry / Application</description>
         <volume>80</volume>
         <frequency>per hour</frequency>

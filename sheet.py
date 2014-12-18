@@ -11,17 +11,23 @@ class Sheet():
         else:
             self.headers = header
 
-    def write_headers(self, row):
+    def write_headers(self, row, format = None):
+        # Becasue excel sheets are not 0 indexed need to subtract 1 from the row.
+        row -= 1
         for header in self.headers:
-            self.sheet.write(row, self.headers.index(header), header)
+            if format is None:
+                self.sheet.write(row, self.headers.index(header), header)
+            else:
+                self.sheet.write(row, self.headers.index(header), header, format)
 
     def write_row(self, row, data):
+        # enumerate simply allows access to both the index and the value in data list.
         for column, value in enumerate(data):
             self.sheet.write(row, column, value)
+            # track_columns is a list of tuples, the if statement checks the second
+            # item in the tuple (as that is the column index to be tracked) to see
+            # if it should be tracked.
             if column in [x[1] for x in self.track_columns]:
-                #print column
-                #print x
-                #print data[x[0]]
                 self.create_mapping(data[x[0]]+'#'+str(column), row, column)
 
     def create_mapping(self, name, row, col):
@@ -62,13 +68,12 @@ if __name__ == '__main__':
     sheet.write_headers(6)
     sheet.track_column(0, 0)
     sheet.track_column(0, 2)
-    sheet.write_row(7, ['Process Enquiry', 'Process Enquiry / Application', 80, 'per hour', ''])
+    sheet.write_row(7, ['Process Enquiry', 'Process Enquiry / Application', 80, 'per hour'])
 
 
     sheet.print_mappings()
     #""""
-    it_trans_sheet = workbook.add_worksheet(\
-            'Input IT Transactions')
+    it_trans_sheet = workbook.add_worksheet( 'Input IT Transactions')
     itsheet = Sheet(it_trans_sheet)
 
     itsheet.add_header('Business Transaction')
