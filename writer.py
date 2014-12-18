@@ -4,67 +4,6 @@ from sheet import Sheet
 
 hardware_dict = {}
 
-def create_hardware_profile_sheet(wrkbk):
-    hardware_sheet = wrkbk.add_worksheet('Input Hardware Profile')
-
-    headers = ['Hardware', 'Host Name', 'No. of cpu (desired)', 'CPU rating (GHz)', 'memory (GB) (Desired)', 'disk capacity (GB)']
-    columns = ['hostname', 'cpu', 'cpu_rating', 'memory', 'disk']
-
-    write_headers(hardware_sheet, headers, 5)
-    return write_data(hardware_sheet, 7, 0, 'hardware', columns)
-
-
-def create_input_resource_details_sheet(wrkbk, hardware_dict):
-    sheet = wrkbk.add_worksheet('Input Resource Details')
-
-    headers = ['Resource Code', 'Hardware', 'Description', 'Unit']
-    columns = ['hardware', 'description', 'unit']
-
-    write_headers(sheet, headers, 5)
-    write_data(sheet, 7, 0, 'resource', columns)
-
-
-def write_headers(sheet, headers, row):
-
-    # Define the bold format.
-    bold = workbook.add_format({'bold': True})
-
-    # Write the header in bold.
-    col = 0
-    for header in headers:
-        sheet.write(row, col, header, bold)
-        col += 1
-
-
-def write_data(sheet, row, col, data_root, columns):
-
-    # Process xml data and write it to the sheet.
-    tree = ET.parse('data.xml')
-    root = tree.getroot()
-
-    for data in root.findall(data_root):
-        sheet.write(row, col, data.get('name'))
-
-        if data_root == 'resource':
-            name = data.find('hardware').text
-            row_col = hardware_dict[name]
-            rowH, colH  = str.split(row_col, ':')
-
-            sheet.write(row, col, "='Input Hardware Profile'!A8")
-
-        # Do I need to keep track of the above row and col index and write it out somewhere
-        # for the input resource details sheet.
-        # if 'data_root' == 'hardware' then write out a dictionary?
-
-        if data_root == 'hardware':
-            hardware_dict[data.get('name')] = str(row) + ':' + str(col)
-
-        for column in columns:
-            sheet.write(row, columns.index(column)+1, data.find(column).text)
-        row += 1
-
-    return hardware_dict
-
 if __name__ == '__main__':
     # Create an new Excel file and add a worksheet.
     workbook = xlsxwriter.Workbook('model.xlsx')
@@ -117,7 +56,6 @@ if __name__ == '__main__':
 
         for it in bt.findall('it_transaction'):
 
-            print itrow
             rowdata = []
             btSheet.print_mappings()
             busMappingName = mappingName + '#0'
@@ -125,7 +63,6 @@ if __name__ == '__main__':
             rowdata.append(data)
             rowdata.append(it.get('name'))
             rowdata.append(it.find('description').text)
-
 
             qty = 0
             try:
@@ -137,7 +74,6 @@ if __name__ == '__main__':
             rowdata.append(1)
             busMappingName = mappingName + '#2'
             volume = itSheet.write_mapping(busMappingName, btSheet)
-            print volume+'*D'+str(itrow+header_row)+'E'+str(itrow+header_row)+'/60/60'
             volume = volume+'*D'+str(itrow+header_row+1)+'*E'+str(itrow+header_row+1)+'/60/60'
 
             rowdata.append(volume)
